@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>  Bright-Mark Academy E communication</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --navy: #002d5b; --gold: #f1c40f; --light-bg: #f8f9fa; --white: #ffffff; --text: #2c3e50; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; background: var(--light-bg); color: var(--text); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Premium Header with Logo */
+        header { background: var(--navy); color: white; padding: 20px 15px; text-align: center; border-bottom: 6px solid var(--gold); position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .header-content { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+        
+        /* The Specialized Logo Design */
+        .logo-wrapper { background: white; border-radius: 50%; padding: 5px; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(241, 196, 15, 0.4); border: 3px solid var(--gold); margin-bottom: 5px; }
+        
+        header h1 { margin: 0; font-size: 22px; letter-spacing: 1px; text-transform: uppercase; }
+        .date-badge { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 13px; display: inline-block; margin-top: 10px; }
+        
+        .logout-btn { position: absolute; right: 20px; top: 30px; background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        
+        .container { padding: 20px; max-width: 1000px; margin: auto; flex: 1; width: 100%; box-sizing: border-box; }
+        .card { background: var(--white); padding: 25px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #edf2f7; }
+        
+        /* UI Elements */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .tab-btn { padding: 12px; border: none; background: #edf2f7; cursor: pointer; font-weight: bold; flex: 1; transition: 0.3s; }
+        .tab-btn.active { background: var(--navy); color: white; }
+        .hidden { display: none; }
+        
+        input, select, textarea { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; transition: 0.3s; }
+        input:focus { border-color: var(--navy); outline: none; }
+        
+        .btn { padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 700; width: 100%; font-size: 16px; transition: all 0.3s ease; }
+        .btn-navy { background: var(--navy); color: white; box-shadow: 0 4px 15px rgba(0,45,91,0.3); }
+        .btn-navy:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,45,91,0.4); }
+        
+        /* Dashboard Styling */
+        .status-box { padding: 15px; border-radius: 12px; font-weight: bold; text-align: center; margin: 10px 0; }
+        .present { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .absent { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        
+        .log-item { background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid var(--navy); font-size: 14px; }
+
+        /* Footer Style */
+        footer { background: var(--navy); color: white; text-align: center; padding: 20px; font-size: 13px; border-top: 4px solid var(--gold); }
+        footer b { color: var(--gold); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="logo-wrapper">
+            <svg viewBox="0 0 200 200" width="90" height="90">
+                <circle cx="100" cy="100" r="95" fill="none" stroke="#002d5b" stroke-width="2"/>
+                <path d="M60 130 Q100 115 140 130 L140 145 Q100 130 60 145 Z" fill="#002d5b" />
+                <path d="M60 130 L60 145 M100 122 L100 145 M140 130 L140 145" stroke="#002d5b" stroke-width="2"/>
+                <circle cx="100" cy="95" r="18" fill="#f1c40f" />
+                <rect x="94" y="113" width="12" height="6" fill="#7f8c8d" />
+                <g stroke="#f1c40f" stroke-width="3" stroke-linecap="round">
+                    <line x1="100" y1="70" x2="100" y2="60" /><line x1="125" y1="80" x2="135" y2="75" />
+                    <line x1="75" y1="80" x2="65" y2="75" /><line x1="130" y1="105" x2="140" y2="110" />
+                    <line x1="70" y1="105" x2="60" y2="110" />
+                </g>
+                <defs>
+                    <path id="txtTop" d="M 35, 100 a 65,65 0 1,1 130,0" />
+                    <path id="txtBottom" d="M 35, 100 a 65,65 0 0,0 130,0" />
+                </defs>
+                <text fill="#002d5b" font-size="14" font-weight="bold" font-family="Arial">
+                    <textPath xlink:href="#txtTop" startOffset="50%" text-anchor="middle">BRIGHT MARK ACADEMY</textPath>
+                </text>
+                <text fill="#002d5b" font-size="14" font-weight="bold" font-family="Arial">
+                    <textPath xlink:href="#txtBottom" startOffset="50%" text-anchor="middle" side="right">ብራይት ማርክ አካዳሚ</textPath>
+                </text>
+            </svg>
+        </div>
+        <h1>Bright Mark Academy E-communication</h1>
+        <div class="date-badge" id="currentDateDisplay"></div>
+    </div>
+    <button id="logoutBtn" class="logout-btn hidden" onclick="logout()">Logout</button>
+</header>
+
+<div class="container">
+    <div id="login-box" class="card">
+        <h2 style="text-align:center; color: var(--navy);">እንኳን ደህና መጡ!</h2>
+        <p style="text-align:center; color: #718096;">እባክዎ መለያዎን መርጠው ይግቡ</p>
+        <select id="userRole">
+            <option value="parent">Parent (ወላጅ)</option>
+            <option value="teacher">Teacher (መምህር)</option>
+            <option value="admin">Administrator (አድሚን)</option>
+        </select>
+        <input type="text" id="loginId" placeholder="ID or Email">
+        <input type="password" id="loginPass" class="hidden" placeholder="Password">
+        <button class="btn btn-navy" onclick="appLogin()">ግባ</button>
+    </div>
+
+    <div id="parent-view" class="hidden">
+        <div class="card" style="background: linear-gradient(135deg, var(--navy), #004a99); color: white;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 id="childName" style="margin:0;"></h2>
+                    <p id="childInfo" style="opacity: 0.9; margin: 5px 0;"></p>
+                </div>
+                <button class="btn" style="width:auto; background: var(--gold); color: var(--navy); padding: 8px 15px;" onclick="location.reload()">Switch Student</button>
+            </div>
+        </div>
+
+        <div class="grid-3">
+            <div class="card">
+                <h3><i class="fas fa-calendar-check" style="color: #27ae60;"></i> የዛሬ አቴንዳንስ</h3>
+                <div id="attStatus" class="status-box">ገና አልተሞላም</div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-book-open" style="color: #2980b9;"></i> የዛሬ የቤት ስራ</h3>
+                <p id="hwContent" style="background: #f1f5f9; padding: 15px; border-radius: 8px; min-height: 50px;"></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><i class="fas fa-bullhorn" style="color: #e67e22;"></i> ማስታወቂያ (Notice)</h3>
+            <div id="noticeDisplay" style="color: #e67e22; font-weight: bold;"></div>
+        </div>
+
+        <div class="card">
+            <h3><i class="fas fa-comment-dots"></i> ለአድሚን መልእክት ይላኩ</h3>
+            <textarea id="parentComment" placeholder="ጥያቄ ወይም አስተያየት ካለዎት እዚህ ይጻፉ..."></textarea>
+            <button class="btn btn-navy" onclick="sendComment()">መልእክት ላክ</button>
+            <div id="adminResponse" style="margin-top:15px; color: #2980b9; font-weight: bold;"></div>
+        </div>
+    </div>
+
+    <div id="teacher-view" class="hidden">
+        <div class="card">
+            <h3><i class="fas fa-chalkboard-teacher"></i> የመምህር ዳሽቦርድ</h3>
+            <div class="grid-3" style="grid-template-columns: 1fr 1fr 1fr;">
+                <select id="t-grade">
+                    <option value="Nursery">Nursery</option><option value="LKG">LKG</option><option value="UKG">UKG</option>
+                    <option value="Grade 1">Grade 1</option><option value="Grade 2">Grade 2</option><option value="Grade 3">Grade 3</option>
+                    <option value="Grade 4">Grade 4</option><option value="Grade 5">Grade 5</option><option value="Grade 6">Grade 6</option>
+                    <option value="Grade 7">Grade 7</option><option value="Grade 8">Grade 8</option>
+                </select>
+                <select id="t-section">
+                    <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                </select>
+                <button class="btn btn-navy" style="margin: 10px 0;" onclick="loadTeacherTools()">ተማሪዎችን አሳይ</button>
+            </div>
+        </div>
+
+        <div id="teacher-tools" class="hidden">
+            <div class="card">
+                <h4><i class="fas fa-edit"></i> የዛሬ የቤት ስራ (Today's Homework)</h4>
+                <textarea id="homeworkText" rows="3" placeholder="የቤት ስራውን እዚህ ይጻፉ..."></textarea>
+                <button class="btn btn-navy" onclick="saveHomework()">Post Homework</button>
+            </div>
+            <div class="card">
+                <h4><i class="fas fa-user-check"></i> አቴንዳንስ መዝግብ (Attendance)</h4>
+                <div id="attendanceList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-view" class="hidden">
+        <div class="card" style="display:flex; padding:0; overflow:hidden;">
+            <button class="tab-btn active" onclick="showTab('teacher-act')">Teacher Activity</button>
+            <button class="tab-btn" onclick="showTab('parent-act')">Parent Activity</button>
+            <button class="tab-btn" onclick="showTab('admin-tools')">Announcements</button>
+        </div>
+
+        <div id="teacher-act" class="tab-content">
+            <div class="card">
+                <h3>የመምህራን እንቅስቃሴ (Homework & Attendance)</h3>
+                <div id="teacherLogs"></div>
+            </div>
+        </div>
+
+        <div id="parent-act" class="tab-content hidden">
+            <div class="card">
+                <h3>የወላጆች አስተያየት እና እይታ</h3>
+                <div id="parentLogs"></div>
+            </div>
+        </div>
+
+        <div id="admin-tools" class="tab-content hidden">
+            <div class="card">
+                <h4>አዲስ ማስታወቂያ (Notice Board)</h4>
+                <textarea id="generalNotice" placeholder="ለሁሉም ወላጆች የሚታይ..."></textarea>
+                <button class="btn btn-navy" onclick="postGeneralNotice()">ማስታወቂያ ልጠፍ</button>
+            </div>
+            <div class="card">
+                <h4>ክስተቶች (Events)</h4>
+                <input type="text" id="eventTitle" placeholder="የክስተቱ ስም">
+                <button class="btn btn-navy" onclick="postEvent()">Event አክል</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 <b>Bright Mark Academy</b>. All Rights Reserved. <br>
+    Developed by <b>Muktar Baye</b>
+</footer>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyAEw7JX4Zjg6V4jaFxeen3E8_ccOGX7MSA",
+        authDomain: "bright-mark-5fea0.firebaseapp.com",
+        databaseURL: "https://bright-mark-5fea0-default-rtdb.firebaseio.com",
+        projectId: "bright-mark-5fea0",
+        storageBucket: "bright-mark-5fea0.firebasestorage.app",
+        messagingSenderId: "1033206937974",
+        appId: "1:1033206937974:web:c26d74680f944e17b4e257"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+
+    const today = new Date().toISOString().split('T')[0];
+    const displayDate = new Date().toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('currentDateDisplay').innerText = displayDate;
+
+    document.getElementById('userRole').onchange = function() {
+        document.getElementById('loginPass').classList.toggle('hidden', this.value === 'parent');
+    };
+
+    function logout() { auth.signOut().then(() => location.reload()); }
+
+    async function appLogin() {
+        const role = document.getElementById('userRole').value;
+        const id = document.getElementById('loginId').value.trim();
+        const pass = document.getElementById('loginPass').value;
+        if (role === 'parent') {
+            const snap = await db.ref('students/' + id).once('value');
+            if (snap.exists()) {
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                loadParentUI(id, snap.val());
+                logAction(id, "Viewed Portal", "Parent checked daily status");
+            } else { alert("Student ID not found!"); }
+        } else {
+            auth.signInWithEmailAndPassword(id, pass).then(() => {
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                if (role === 'admin') loadAdminUI(); else loadTeacherUI();
+            }).catch(e => alert(e.message));
+        }
+    }
+
+    async function loadParentUI(id, data) {
+        document.getElementById('login-box').classList.add('hidden');
+        document.getElementById('parent-view').classList.remove('hidden');
+        document.getElementById('childName').innerText = data["First Name"];
+        document.getElementById('childInfo').innerText = `${data["Grade Level"]} - Section ${data["Section"]}`;
+        db.ref(`attendance/${today}/${id}`).on('value', s => {
+            const el = document.getElementById('attStatus');
+            if (s.exists()) { el.innerText = s.val(); el.className = `status-box ${s.val().toLowerCase()}`; }
+            else { el.innerText = "ገና አልተሞላም"; el.className = "status-box"; }
+        });
+        db.ref(`homework/${data["Grade Level"]}/${data["Section"]}/${today}`).on('value', s => {
+            document.getElementById('hwContent').innerText = s.exists() ? s.val() : "ለዛሬ የቤት ስራ አልተለጠፈም።";
+        });
+        db.ref('notices/general').on('value', s => { document.getElementById('noticeDisplay').innerText = s.exists() ? "📣 " + s.val() : ""; });
+        db.ref(`responses/${id}`).on('value', s => { document.getElementById('adminResponse').innerText = s.exists() ? "Admin Response: " + s.val() : ""; });
+    }
+
+    function sendComment() {
+        const id = document.getElementById('loginId').value;
+        const txt = document.getElementById('parentComment').value;
+        if (!txt) return;
+        logAction(id, "Parent Comment", txt);
+        alert("ተልኳል!");
+        document.getElementById('parentComment').value = "";
+    }
+
+    function loadTeacherUI() {
+        document.getElementById('login-box').classList.add('hidden');
+        document.getElementById('teacher-view').classList.remove('hidden');
+    }
+
+    async function loadTeacherTools() {
+        const g = document.getElementById('t-grade').value;
+        const s = document.getElementById('t-section').value;
+        const snap = await db.ref('students').once('value');
+        const list = document.getElementById('attendanceList');
+        list.innerHTML = "";
+        document.getElementById('teacher-tools').classList.remove('hidden');
+        snap.forEach(c => {
+            const v = c.val();
+            if (v["Grade Level"] === g && v["Section"] === s) {
+                list.innerHTML += `<div class="log-item" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span><b>${v["First Name"]}</b></span>
+                    <div>
+                        <button class="btn" style="width:50px; background:#27ae60; color:white; padding:5px;" onclick="markAtt('${c.key}','Present')">P</button>
+                        <button class="btn" style="width:50px; background:#e74c3c; color:white; padding:5px;" onclick="markAtt('${c.key}','Absent')">A</button>
+                    </div></div>`;
+            }
+        });
+    }
+
+    function markAtt(id, stat) {
+        db.ref(`attendance/${today}/${id}`).set(stat);
+        logAction(auth.currentUser.email, "Teacher Attendance", `Marked ${id} as ${stat}`);
+    }
+
+    function saveHomework() {
+        const g = document.getElementById('t-grade').value;
+        const s = document.getElementById('t-section').value;
+        const txt = document.getElementById('homeworkText').value;
+        db.ref(`homework/${g}/${s}/${today}`).set(txt);
+        logAction(auth.currentUser.email, "Teacher Homework", `Posted for ${g} - ${s}`);
+        alert("Homework Posted!");
+    }
+
+    function loadAdminUI() {
+        document.getElementById('login-box').classList.add('hidden');
+        document.getElementById('admin-view').classList.remove('hidden');
+        db.ref('logs').limitToLast(50).on('value', snap => {
+            const tLogs = document.getElementById('teacherLogs');
+            const pLogs = document.getElementById('parentLogs');
+            tLogs.innerHTML = ""; pLogs.innerHTML = "";
+            snap.forEach(l => {
+                const val = l.val();
+                const html = `<div class="log-item"><b>${val.user}</b> - <small>${val.time}</small><br><u>${val.action}</u>: ${val.detail}
+                    ${val.action === "Parent Comment" ? `<br><button onclick="adminReply('${val.user}')">Reply</button>` : ""}</div>`;
+                if (val.action.includes("Teacher")) tLogs.innerHTML = html + tLogs.innerHTML;
+                else pLogs.innerHTML = html + pLogs.innerHTML;
+            });
+        });
+    }
+
+    function adminReply(pid) {
+        const msg = prompt(`Reply to parent ${pid}:`);
+        if (msg) db.ref(`responses/${pid}`).set(msg);
+    }
+
+    function showTab(tid) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tid).classList.remove('hidden');
+        event.target.classList.add('active');
+    }
+
+    function postGeneralNotice() {
+        db.ref('notices/general').set(document.getElementById('generalNotice').value);
+        alert("Notice Updated!");
+    }
+
+    function logAction(user, action, detail) {
+        db.ref('logs').push({ user, action, detail, time: new Date().toLocaleString() });
+    }
+</script>
+</body>
+</html>
