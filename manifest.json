@@ -1,0 +1,20 @@
+{
+  "short_name": "BM E-Comm",
+  "name": "Bright Mark E-Communication",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "standalone",
+  "theme_color": "#002d5b",
+  "background_color": "#ffffff"
+}
