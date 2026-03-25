@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>  Bright-Mark Academy E communication</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="manifest" href="manifest.json">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
@@ -57,29 +60,9 @@
 <header>
     <div class="header-content">
         <div class="logo-wrapper">
-            <svg viewBox="0 0 200 200" width="90" height="90">
-                <circle cx="100" cy="100" r="95" fill="none" stroke="#002d5b" stroke-width="2"/>
-                <path d="M60 130 Q100 115 140 130 L140 145 Q100 130 60 145 Z" fill="#002d5b" />
-                <path d="M60 130 L60 145 M100 122 L100 145 M140 130 L140 145" stroke="#002d5b" stroke-width="2"/>
-                <circle cx="100" cy="95" r="18" fill="#f1c40f" />
-                <rect x="94" y="113" width="12" height="6" fill="#7f8c8d" />
-                <g stroke="#f1c40f" stroke-width="3" stroke-linecap="round">
-                    <line x1="100" y1="70" x2="100" y2="60" /><line x1="125" y1="80" x2="135" y2="75" />
-                    <line x1="75" y1="80" x2="65" y2="75" /><line x1="130" y1="105" x2="140" y2="110" />
-                    <line x1="70" y1="105" x2="60" y2="110" />
-                </g>
-                <defs>
-                    <path id="txtTop" d="M 35, 100 a 65,65 0 1,1 130,0" />
-                    <path id="txtBottom" d="M 35, 100 a 65,65 0 0,0 130,0" />
-                </defs>
-                <text fill="#002d5b" font-size="14" font-weight="bold" font-family="Arial">
-                    <textPath xlink:href="#txtTop" startOffset="50%" text-anchor="middle">BRIGHT MARK ACADEMY</textPath>
-                </text>
-                <text fill="#002d5b" font-size="14" font-weight="bold" font-family="Arial">
-                    <textPath xlink:href="#txtBottom" startOffset="50%" text-anchor="middle" side="right">ብራይት ማርክ አካዳሚ</textPath>
-                </text>
-            </svg>
-        </div>
+           <div class="logo-wrapper">
+    <img src="logo.png" alt="Bright Mark Logo" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover;">
+</div>
         <h1>Bright Mark Academy E-communication</h1>
         <div class="date-badge" id="currentDateDisplay"></div>
     </div>
